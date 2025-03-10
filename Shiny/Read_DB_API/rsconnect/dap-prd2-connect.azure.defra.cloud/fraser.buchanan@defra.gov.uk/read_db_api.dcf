@@ -1,0 +1,12 @@
+name: read_db_api
+title: Read_DB_API
+username: fraser.buchanan@defra.gov.uk
+account: fraser.buchanan@defra.gov.uk
+server: dap-prd2-connect.azure.defra.cloud
+hostUrl: https://dap-prd2-connect.azure.defra.cloud/__api__
+appId: 753
+bundleId: 6102
+url: https://dap-prd2-connect.azure.defra.cloud/content/ec184acf-b165-4733-981f-c1247fa36bb0/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
