@@ -10,6 +10,14 @@ downloaded_file = response.contents.read()
 
 df = pd.read_csv(BytesIO(downloaded_file))
 
+adelie = df[df['species'] == "Adelie"]
+adelie.to_csv('adelie.csv', index=False)
+
+with open("adelie.csv", mode="rb") as file:
+    csv = file.read()
+
+w.files.upload("/Volumes/prd_dash_lab/dash_data_science_unrestricted/shared_external_volume/adelie.csv", csv)
+
 app = Dash()
 
 # Requires Dash 2.17.0 or later
