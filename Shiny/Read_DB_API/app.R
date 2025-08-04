@@ -7,6 +7,8 @@
 #    https://shiny.posit.co/
 #
 # Need to set DATABRICKS_HOST and DATABRICKS_TOKEN env variables
+# Sys.setenv(DATABRICKS_HOST = "https://adb-2353967604677522.2.azuredatabricks.net/", DATABRICKS_TOKEN = "<token>")
+# 9cc49d1f-2d62-46f4-b049-8b074a76d018?o=2353967604677522
 # These also need to be set on the server.
 
 
@@ -24,8 +26,6 @@ penguins <- read.csv(file)
 x    <- penguins$body_mass_g
 print(x)
 
-print(penguins)
-
 gentoo <- subset(penguins, species == "Gentoo")
 print(gentoo)
 
@@ -36,9 +36,20 @@ write.csv(gentoo,"gentoo.csv", row.names = FALSE)
 db_volume_write(
   '/Volumes/prd_dash_lab/dash_data_science_unrestricted/shared_external_volume/gentoo.csv',
   'gentoo.csv',
-  overwrite = FALSE,
+  overwrite = TRUE,
   perform_request = TRUE
 )
+
+print(penguins)
+
+# Get table form uC
+
+UC_table <- db_sql_query(
+  warehouse_id = "09d64966392a2bda",
+  statement = "select * from prd_dash_lab.dash_data_science_unrestricted.planning_applications"
+)
+
+#print(UC_table)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -58,7 +69,8 @@ ui <- fluidPage(
     
     # Show a plot of the generated distribution
     mainPanel(
-      plotOutput("distPlot")
+      plotOutput("distPlot"),
+      dataTableOutput('table')
     )
   )
 )
@@ -76,6 +88,10 @@ server <- function(input, output) {
          xlab = 'body_mass_g',
          main = 'Histogram of penguin body mass')
   })
+
+  output$table <- renderDataTable(UC_table)
+  
+  
 }
 
 # Run the application 
